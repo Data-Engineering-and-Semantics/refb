@@ -9,3 +9,7 @@ This bot recognizes Wikidata statements not supported by references using a SPAR
 
 ## License
 The source code is made available under CC-BY-SA 4.0 license that allows the free sharing and reuse of its parts. Further information about CC-BY-SA 4.0 can be found at https://creativecommons.org/licenses/by-sa/4.0/.
+
+## Further reading
+* Blog Post on Misinfocon: https://misinfocon.com/refdata-adding-trustworthiness-to-wikidata-d3cc68c21a6f
+* Application of bot flag in Wikidata: https://www.wikidata.org/wiki/Wikidata:Requests_for_permissions/Bot/RefB_(WikiCred)
