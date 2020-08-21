@@ -54,7 +54,14 @@ def get_results(endpoint_url, query):
     return sparql.query().convert()
 
 g = open("output.csv", "w")
-results = get_results(endpoint_url, query)
+xt = False
+while (xt == False):
+    xt = True
+    try:
+        results = get_results(endpoint_url, query)
+    except:
+        xt = False
+    print(xt)
 
 for result in results["results"]["bindings"]:
     print(result)
