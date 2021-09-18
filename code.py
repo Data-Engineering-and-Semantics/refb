@@ -6,6 +6,15 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from Bio import Entrez
 from Bio import Medline
 import requests
+import wikibaseintegrator
+
+
+# Logging in with Wikibase Integrator
+print("Logging in with Wikibase Integrator")
+login_instance = wbi_login.Login(user=USER, pwd=PASSWORD)
+
+# Getting the current date
+datestr = '+' + str(datetime.datetime.now())[0:10] + 'T00:00:00Z'
 
 Entrez.email = "turkiabdelwaheb@hotmail.fr"     #Identification
 endpoint_url = "https://query.wikidata.org/sparql"
@@ -53,7 +62,6 @@ def get_results(endpoint_url, query):
     sparql.setReturnFormat(JSON)
     return sparql.query().convert()
 
-g = open("output.csv", "w")
 xt = False
 while (xt == False):
     xt = True
@@ -102,11 +110,15 @@ for result in results["results"]["bindings"]:
                             except KeyError:
                                 wid = ""
                             if (wid != ""):
-                                ux = result["item"]["value"][31:255]+"%09"+result["property"]["value"][31:255]+"%09"+result["v"]["value"][31:255]+"%09S248%09"+wid
-                                urlgbase = "https://quickstatements.toolforge.org/api.php?action=import&submit=1&username={{username}}&token={{token}}&format=v1&data="
-                                urlg = urlgbase + ux
-                                xf = requests.post(urlg)
-                                g.write(ux+"\n")
-                                g.flush()
-g.close()                           
+                                statements = []
+                                source = [
+                                   [
+                                          wbi_datatype.ItemID(value=wid, prop_nr="P248", is_reference=True, if_exists="APPEND"),
+                                          wbi_datatype.Time(time=datestr, prop_nr="P813", is_reference=True, if_exists="APPEND")
+                                   ]
+                                statement = wbi_datatype.ItemID(value=result["v"]["value"][31:255], prop_nr=result["property"]["value"][31:255], references=source, if_exists="APPEND")
+                                statements.append(statement)
+                                item = wbi_core.ItemEngine(data=statements, item_id=result["item"]["value"][31:255])
+                                item.write(login_instance, edit_summary="Added from OpenCitations COCI API using [[User:OpenCitations Bot|OpenCitations Bot]]")
+                         
                         
