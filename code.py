@@ -7,6 +7,7 @@ from Bio import Entrez
 from Bio import Medline
 import requests
 import wikibaseintegrator
+import datetime
 
 
 # Logging in with Wikibase Integrator
