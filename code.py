@@ -117,6 +117,7 @@ for result in results["results"]["bindings"]:
                                           wbi_datatype.ItemID(value=wid, prop_nr="P248", is_reference=True, if_exists="APPEND"),
                                           wbi_datatype.Time(time=datestr, prop_nr="P813", is_reference=True, if_exists="APPEND")
                                    ]
+                                ]
                                 statement = wbi_datatype.ItemID(value=result["v"]["value"][31:255], prop_nr=result["property"]["value"][31:255], references=source, if_exists="APPEND")
                                 statements.append(statement)
                                 item = wbi_core.ItemEngine(data=statements, item_id=result["item"]["value"][31:255])
